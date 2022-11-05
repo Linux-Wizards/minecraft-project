@@ -1,0 +1,16 @@
+# Your database type.
+# MySQL is also compatible with MariaDB.
+# Databases supported: MySQL
+db_type: 'mysql'
+# The address of your database (can be 'localhost')
+db_host: 'localhost'
+# The port that your database uses
+db_port: '3306'
+# The database name you want to use (the database should already exist)
+db_name: 'minecraft_db'
+# The username used for connection to the database
+db_user: 'minecraft_user'
+# The password used for connection to the database
+db_password: 'your_password'
+# The table you want to use (will be created automatically if it doesn't exist)
+table_name: 'simple_notepad'
