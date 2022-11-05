@@ -1,0 +1,9 @@
+name: 'SimpleNotepad'
+version: '0.1'
+main: 'io.github.darkognu.simplenotepad.SimpleNotepad'
+api-version: '1.19'
+commands:
+  notepad:
+    description: 'Your personal notepad'
+    usage: '/notepad [new | list | search | delete]'
+    permission: simplenotepad.general
