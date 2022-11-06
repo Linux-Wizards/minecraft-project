@@ -2,12 +2,13 @@ package io.github.darkognu.simplenotepad;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
+import com.hubspot.jinjava.Jinjava;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class Config {
     public static FileConfiguration initConfig(JavaPlugin plugin) throws InvalidConfigurationException, IOException {
@@ -47,17 +48,23 @@ public class Config {
 
     private static boolean validateConfig(FileConfiguration config) {
         // We only support MySQL
-        if (!config.getString("db_type").equals("mysql")) {
-            return false;
-        }
-
-        return true;
+        return Objects.equals(config.getString("db_type"), "mysql");
     }
 
     private static void saveHibernateConfig(FileConfiguration config, JavaPlugin plugin) throws IOException {
-        // Jinjava jinja = new Jinjava();
+        // Create our template engine
+        Jinjava jinja;
 
-        String hibernateTemplate = CharStreams.toString(new InputStreamReader(plugin.getResource("hibernate.cfg.xml"), Charsets.UTF_8));
-        plugin.getLogger().info(hibernateTemplate);
+        // Jinjava has a bug where it can't find a class - workaround below
+        ClassLoader curClassLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(plugin.getClass().getClassLoader());
+            jinja = new Jinjava();
+        } finally {
+            Thread.currentThread().setContextClassLoader(curClassLoader);
+        }
+
+        String hibernateTemplate = CharStreams.toString(new InputStreamReader(Objects.requireNonNull(plugin.getResource("hibernate.cfg.xml")), Charsets.UTF_8));
+        String noteTemplate = CharStreams.toString(new InputStreamReader(Objects.requireNonNull(plugin.getResource("note.hbm.xml")), Charsets.UTF_8));
     }
 }
