@@ -1,9 +1,11 @@
+<!-- This file will automatically regenerate on each server start! If you don't want this behavior, the code needs to be changed -->
+
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "https://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="io.github.darkognu.simplenotepad.Note" table="simple_notepad">
+    <class name="io.github.darkognu.simplenotepad.Note" table="{{ table_name }}">
         <id name="id" type="java.lang.Long">
             <column name="id" />
             <generator class="increment" />

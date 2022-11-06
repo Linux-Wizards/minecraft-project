@@ -1,4 +1,5 @@
 io/github/darkognu/simplenotepad/Config.class
+io/github/darkognu/simplenotepad/HibernateUtil.class
 io/github/darkognu/simplenotepad/SimpleNotepad.class
 io/github/darkognu/simplenotepad/Notepad.class
 io/github/darkognu/simplenotepad/Note.class

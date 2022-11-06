@@ -1,0 +1,41 @@
+<!-- This file will automatically regenerate on each server start! If you don't want this behavior, the code needs to be changed -->
+<!-- Based on https://github.com/Drawethree/spigot-hibernate-demo/blob/master/src/main/resources/hibernate.cfg.xml -->
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- JDBC Database connection settings -->
+        <property name="connection.driver_class">{{ driver }}</property>
+        <property name="connection.url">{{ connection_string }}</property>
+        <property name="connection.username">{{ db_user }}</property>
+        <property name="connection.password">{{ db_password }}</property>
+
+        <!-- JDBC connection pool settings -->
+        <property name="connection.pool_size">{{ db_connections }}</property>
+
+        <!-- Select our SQL dialect -->
+        <property name="dialect">{{ sql_dialect }}</property>
+
+        <!-- Echo the SQL to stdout -->
+        <property name="show_sql">false</property>
+
+        <!-- Format the SQL -->
+        <property name="format_sql">true</property>
+
+        <!-- Set the current session context -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Handles the entity table changes -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Mapping file for Note class -->
+        <mapping resource="note.hbm.xml" />
+
+    </session-factory>
+
+</hibernate-configuration>

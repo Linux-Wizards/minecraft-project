@@ -4,6 +4,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class SimpleNotepad extends JavaPlugin {
@@ -15,7 +16,7 @@ public class SimpleNotepad extends JavaPlugin {
         // Handling configuration
         try {
             FileConfiguration config = Config.initConfig(this);
-        } catch (InvalidConfigurationException e) {
+        } catch (InvalidConfigurationException | IOException e) {
             throw new RuntimeException(e);
         }
 
