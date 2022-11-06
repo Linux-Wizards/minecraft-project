@@ -8,7 +8,7 @@
     <class name="io.github.darkognu.simplenotepad.Note" table="{{ table_name }}">
         <id name="id" type="java.lang.Long">
             <column name="id" />
-            <generator class="increment" />
+            <generator class="native" />
         </id>
         <property name="message" type="java.lang.String">
             <column name="message" />
