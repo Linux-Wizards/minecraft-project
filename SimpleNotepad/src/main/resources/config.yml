@@ -1,5 +1,5 @@
-# Your database type.
-# MySQL is also compatible with MariaDB.
+# Your database type
+# MySQL is also compatible with MariaDB
 # Databases supported: MySQL
 db_type: 'mysql'
 # The address of your database (can be 'localhost')
@@ -18,3 +18,6 @@ db_password: 'your_password'
 table_name: 'simple_notepad'
 # How many concurrent connections can the plugin make?
 db_connections: 10
+# Do you want to automatically regenerate Hibernate's configuration when loading the plugin?
+# Useful for debugging Hibernate
+regenerate_hibernate_config: true

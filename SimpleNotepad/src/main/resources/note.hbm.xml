@@ -1,4 +1,6 @@
-<?xml version="1.0"?> <!-- This file will automatically regenerate on each server start! If you don't want this behavior, the code needs to be changed -->
+<?xml version="1.0"?>
+<!-- This file will, by default, automatically regenerate when loading the plugin.
+     To change this behavior, flip the 'regenerate_hibernate_config' variable in 'config.yml' -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "https://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 

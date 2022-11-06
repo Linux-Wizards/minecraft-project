@@ -12,12 +12,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
 
 public class Config {
-    public static FileConfiguration initConfig(JavaPlugin plugin) throws InvalidConfigurationException, IOException {
+    public static void initConfig(JavaPlugin plugin) throws InvalidConfigurationException, IOException {
         // Save the default config - if it doesn't exist
         plugin.saveDefaultConfig();
         // For convenience - store a reference to the config in a variable
@@ -38,6 +39,7 @@ public class Config {
         config.addDefault("db_password", "your_password");
         config.addDefault("table_name", "simple_notepad");
         config.addDefault("db_connections", 10);
+        config.addDefault("regenerate_hibernate_config", true);
 
         // Load all the default values (if they aren't provided in config.yml)
         config.options().copyDefaults(true);
@@ -47,9 +49,6 @@ public class Config {
 
         // Save Hibernate configuration files
         saveHibernateConfig(config, plugin);
-
-        // Return a reference to config
-        return config;
     }
 
     private static boolean validateConfig(FileConfiguration config) {
@@ -95,9 +94,22 @@ public class Config {
             hibernateDir.mkdirs();
         }
 
-        // Write the files
-        Files.write(Paths.get(hibernateDir + "/hibernate.cfg.xml"), renderedHibernate.getBytes(Charsets.UTF_8));
-        Files.write(Paths.get(hibernateDir + "/note.hbm.xml"), renderedNote.getBytes(Charsets.UTF_8));
+        // Write the files...
+        Path hibernateFile = Paths.get(hibernateDir + "/hibernate.cfg.xml");
+        Path noteFile = Paths.get(hibernateDir + "/note.hbm.xml");
+
+        // But also check whether they should be regenerated!
+        boolean shouldRegenerate = config.getBoolean("regenerate_hibernate_config");
+
+        if (!hibernateFile.toFile().exists() || shouldRegenerate)
+        {
+            Files.writeString(hibernateFile, renderedHibernate, Charsets.UTF_8);
+        }
+
+        if (!noteFile.toFile().exists() || shouldRegenerate)
+        {
+            Files.writeString(noteFile, renderedNote, Charsets.UTF_8);
+        }
     }
 
     private static String getDriver(FileConfiguration config) {
