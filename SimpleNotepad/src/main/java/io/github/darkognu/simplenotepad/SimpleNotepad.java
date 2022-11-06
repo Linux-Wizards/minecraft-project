@@ -28,7 +28,7 @@ public class SimpleNotepad extends JavaPlugin {
         sessionFactory = HibernateUtil.buildFactory(hibernateConfig, new String[]{noteConfig}, this);
 
         // Register the 'notepad' command
-        Objects.requireNonNull(this.getCommand("notepad")).setExecutor(new Notepad());
+        Objects.requireNonNull(this.getCommand("notepad")).setExecutor(new Notepad(sessionFactory));
     }
     @Override
     public void onDisable() {

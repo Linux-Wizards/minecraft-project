@@ -34,7 +34,7 @@
         <!-- Handles the entity table changes -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <!-- Transform `hbm.xml` mappings to `mapping.xml` format -->
+        <!-- Transform `hbm.xml` mappings to `mapping.xml` format (it works and I'm too lazy to do it properly) -->
         <property name="hibernate.transform_hbm_xml.enabled">true</property>
 
     </session-factory>
