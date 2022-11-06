@@ -3,7 +3,9 @@ version: '0.1'
 main: 'io.github.darkognu.simplenotepad.SimpleNotepad'
 api-version: '1.19'
 libraries:
+  - 'com.mysql:mysql-connector-j:8.0.31'
   - 'org.hibernate.orm:hibernate-core:6.1.5.Final'
+  - 'com.hubspot.jinjava:jinjava:2.6.0'
 commands:
   notepad:
     description: 'Your personal notepad'
