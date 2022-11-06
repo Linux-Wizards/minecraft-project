@@ -33,9 +33,6 @@
         <!-- Handles the entity table changes -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <!-- Mapping file for Note class -->
-        <mapping resource="note.hbm.xml" />
-
     </session-factory>
 
 </hibernate-configuration>

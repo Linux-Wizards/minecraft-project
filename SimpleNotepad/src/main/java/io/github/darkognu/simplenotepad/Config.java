@@ -1,13 +1,19 @@
 package io.github.darkognu.simplenotepad;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
 import com.hubspot.jinjava.Jinjava;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Objects;
 
 public class Config {
@@ -66,5 +72,67 @@ public class Config {
 
         String hibernateTemplate = CharStreams.toString(new InputStreamReader(Objects.requireNonNull(plugin.getResource("hibernate.cfg.xml")), Charsets.UTF_8));
         String noteTemplate = CharStreams.toString(new InputStreamReader(Objects.requireNonNull(plugin.getResource("note.hbm.xml")), Charsets.UTF_8));
+
+        Map<String, Object> hibernateContext = ImmutableMap.of(
+                "driver", getDriver(config),
+                "connection_string", getConnectionString(config, jinja),
+                "db_user", Objects.requireNonNull(config.getString("db_user")),
+                "db_password", Objects.requireNonNull(config.getString("db_password")),
+                "db_connections", Objects.requireNonNull(config.getString("db_connections")),
+                "sql_dialect", getSqlDialect(config)
+        );
+
+        Map<String, Object> noteContext = ImmutableMap.of("table_name", Objects.requireNonNull(config.getString("table_name")));
+
+        String renderedHibernate = jinja.render(hibernateTemplate, hibernateContext);
+        String renderedNote = jinja.render(noteTemplate, noteContext);
+
+        // Create a directory for Hibernate files
+        File hibernateDir = new File(plugin.getDataFolder() + "/hibernate");
+
+        if (!hibernateDir.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            hibernateDir.mkdirs();
+        }
+
+        // Write the files
+        Files.write(Paths.get(hibernateDir + "/hibernate.cfg.xml"), renderedHibernate.getBytes(Charsets.UTF_8));
+        Files.write(Paths.get(hibernateDir + "/note.hbm.xml"), renderedNote.getBytes(Charsets.UTF_8));
+    }
+
+    private static String getDriver(FileConfiguration config) {
+        if (Objects.equals(config.getString("db_type"), "mysql")) {
+            return "com.mysql.cj.jdbc.Driver";
+        }
+
+        // DB Type should already be validated
+        return "";
+    }
+
+    private static String getConnectionString(FileConfiguration config, Jinjava jinja) {
+        if (Objects.equals(config.getString("db_type"), "mysql")) {
+            String template = "jdbc:mysql://{{ db_host }}:{{ db_port }}/{{ db_name }}?useSSL={{ db_ssl }}";
+
+            Map<String, Object> context = ImmutableMap.of(
+                    "db_host", Objects.requireNonNull(config.getString("db_host")),
+                    "db_port", Objects.requireNonNull(config.getString("db_port")),
+                    "db_name", Objects.requireNonNull(config.getString("db_name")),
+                    "db_ssl", Objects.requireNonNull(config.getString("db_ssl"))
+            );
+
+            return jinja.render(template, context);
+        }
+
+        // DB Type should already be validated
+        return "";
+    }
+
+    private static String getSqlDialect(FileConfiguration config) {
+        if (Objects.equals(config.getString("db_type"), "mysql")) {
+            return "org.hibernate.dialect.MySQLDialect";
+        }
+
+        // DB Type should already be validated
+        return "";
     }
 }

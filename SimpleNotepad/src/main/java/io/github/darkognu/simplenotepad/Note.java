@@ -1,11 +1,8 @@
 package io.github.darkognu.simplenotepad;
 
-import jakarta.persistence.Entity;
-
-import java.io.Serializable;
 import java.util.UUID;
 
-public class Note implements Serializable {
+public class Note {
     private Long id;
     private String title;
     private String message;
