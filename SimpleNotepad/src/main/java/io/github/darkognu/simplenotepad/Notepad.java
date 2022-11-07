@@ -116,6 +116,8 @@ public class Notepad implements CommandExecutor {
     private void printNotes(final Player player, boolean compact, List<Note> notes) {
         if (notes.isEmpty()) {
             player.sendMessage("No notes found!");
+        } else {
+            player.sendMessage("Your recent notes:");
         }
 
         for (Note note : notes) {
