@@ -84,7 +84,7 @@ public class Notepad implements CommandExecutor {
     private void showNotes(@NonNull Player player, @NonNull String[] args) {
         // Simply show top 100 latest notes in compact format
         if (args.length <= 1) {
-            showNotes(player, true);
+            showNotes(player, false);
         }
     }
 
