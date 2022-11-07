@@ -47,7 +47,12 @@ public class Notepad implements CommandExecutor {
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i < args.length; ++i) {
             sb.append(args[i]);
+            // Append spaces conditionally
+            if (i != args.length - 1) {
+                sb.append(' ');
+            }
         }
+
         String message = sb.toString();
 
         // Create a new note

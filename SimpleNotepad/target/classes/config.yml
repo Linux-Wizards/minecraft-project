@@ -15,6 +15,7 @@ db_user: 'minecraft_user'
 # The password used for connection to the database
 db_password: 'your_password'
 # The table you want to use (will be created automatically if it doesn't exist)
+# Please note that for ID generation, a second table with '_sequence' suffix may be created
 table_name: 'simple_notepad'
 # How many concurrent connections can the plugin make?
 db_connections: 10

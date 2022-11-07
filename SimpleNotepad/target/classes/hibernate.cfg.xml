@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This file will, by default, automatically regenerate when loading the plugin.
-     To change this behavior, flip the 'regenerate_hibernate_config' variable in 'config.yml'
+     To change this behavior, flip the 'regenerate_hibernate_config' variable in 'config.yml'.
      Based on https://github.com/Drawethree/spigot-hibernate-demo/blob/master/src/main/resources/hibernate.cfg.xml -->
 
 <!DOCTYPE hibernate-configuration PUBLIC

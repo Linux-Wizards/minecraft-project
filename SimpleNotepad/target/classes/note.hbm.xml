@@ -12,8 +12,6 @@
                 <param name="sequence_name">{{ table_name }}_sequence</param>
                 <param name="initial_value">1</param>
                 <param name="increment_size">1</param>
-                <param name="force_table_use">false</param> <!-- false -->
-                <param name="value_column">next_val</param>
                 <param name="optimizer">none</param>
             </generator>
         </id>
