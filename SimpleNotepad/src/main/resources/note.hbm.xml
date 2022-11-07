@@ -1,23 +1,22 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- This file will, by default, automatically regenerate when loading the plugin.
      To change this behavior, flip the 'regenerate_hibernate_config' variable in 'config.yml' -->
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-        "https://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
     <class name="io.github.darkognu.simplenotepad.Note" table="{{ table_name }}">
         <id name="id" type="java.lang.Long">
-            <column name="id" />
-            <generator class="native" />
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">{{ table_name }}_sequence</param>
+                <param name="initial_value">1</param>
+                <param name="increment_size">1</param>
+                <param name="optimizer">none</param>
+            </generator>
         </id>
-        <property name="message" type="java.lang.String">
-            <column name="message" />
-        </property>
-        <property name="playerId" type="java.util.UUID">
-            <column name="player_id" />
-        </property>
-        <property name="date" type="java.util.Date">
-            <column name="date" />
-        </property>
+        <property name="message" type="java.lang.String" column="message" />
+        <property name="playerId" type="java.util.UUID" column="player_id" />
+        <property name="date" type="java.util.Date" column = "date" />
     </class>
 </hibernate-mapping>

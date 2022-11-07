@@ -3,7 +3,6 @@ package io.github.darkognu.simplenotepad;
 import java.util.Date;
 import java.util.UUID;
 
-
 public class Note {
     private Long id;
     private String message;
@@ -19,7 +18,8 @@ public class Note {
 
     // Default constructor to satisfy Hibernate
     @SuppressWarnings("unused")
-    public Note() {}
+    public Note() {
+    }
 
     //
     // Hibernate fails without these getters and setters

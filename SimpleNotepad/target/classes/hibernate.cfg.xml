@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- This file will, by default, automatically regenerate when loading the plugin.
-     To change this behavior, flip the 'regenerate_hibernate_config' variable in 'config.yml' -->
-<!-- Based on https://github.com/Drawethree/spigot-hibernate-demo/blob/master/src/main/resources/hibernate.cfg.xml -->
+     To change this behavior, flip the 'regenerate_hibernate_config' variable in 'config.yml'
+     Based on https://github.com/Drawethree/spigot-hibernate-demo/blob/master/src/main/resources/hibernate.cfg.xml -->
 
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
@@ -31,11 +32,8 @@
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
 
-        <!-- Handles the entity table changes -->
+        <!-- Generate and update the table automatically -->
         <property name="hibernate.hbm2ddl.auto">update</property>
-
-        <!-- Transform `hbm.xml` mappings to `mapping.xml` format (it works and I'm too lazy to do it properly) -->
-        <property name="hibernate.transform_hbm_xml.enabled">true</property>
 
     </session-factory>
 
