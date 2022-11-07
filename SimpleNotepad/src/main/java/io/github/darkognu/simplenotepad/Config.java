@@ -123,6 +123,7 @@ public class Config {
 
     private static String getConnectionString(FileConfiguration config, Jinjava jinja) {
         if (Objects.equals(config.getString("db_type"), "mysql")) {
+            // Ampersand - &amp;
             String template = "jdbc:mysql://{{ db_host }}:{{ db_port }}/{{ db_name }}?useSSL={{ db_ssl }}";
 
             Map<String, Object> context = ImmutableMap.of(

@@ -1,5 +1,8 @@
 package io.github.darkognu.simplenotepad;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,6 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class Notepad implements CommandExecutor {
     private final SessionFactory sessionFactory;
@@ -32,6 +38,10 @@ public class Notepad implements CommandExecutor {
             return false;
         } else if (args[0].equals("new")) {
             addNewNote(player, args);
+        } else if (args[0].equals("show")) {
+            showNotes(player, args);
+        } else if (args[0].equals("delete")) {
+            deleteNotes(player, args);
         }
 
         return true;
@@ -43,17 +53,8 @@ public class Notepad implements CommandExecutor {
             return;
         }
 
-        // Make a string from the array
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < args.length; ++i) {
-            sb.append(args[i]);
-            // Append spaces conditionally
-            if (i != args.length - 1) {
-                sb.append(' ');
-            }
-        }
-
-        String message = sb.toString();
+        // Concatenate the message
+        String message = arrayToString(args, 1);
 
         // Create a new note
         Note newNote = new Note(message, player.getUniqueId());
@@ -72,8 +73,82 @@ public class Notepad implements CommandExecutor {
             session.persist(note);
             // Commit the transaction
             session.getTransaction().commit();
+            // --- Close the session ---
             session.close();
+            // Inform the player that his message has been saved
             player.sendMessage("Your message has been saved!");
         });
+    }
+
+    private void showNotes(@NonNull Player player, @NonNull String[] args) {
+        // Simply show top 100 latest notes in compact format
+        if (args.length <= 1) {
+            showNotes(player, true);
+        }
+    }
+
+    private void showNotes(final Player player, boolean compact) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            // Get a Hibernate session
+            Session session = sessionFactory.getCurrentSession();
+            // Start a transaction
+            session.beginTransaction();
+            // Create a CriteriaBuilder
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            // Create a CriteriaQuery
+            CriteriaQuery<Note> cq = cb.createQuery(Note.class);
+            // Create a Criteria Root
+            Root<Note> root = cq.from(Note.class);
+            // --- Select appropriate rows ---
+            cq.select(root).where(cb.equal(root.get("playerId"), player.getUniqueId()));
+            // Create a Query
+            Query<Note> query = session.createQuery(cq);
+            // Obtain the results!
+            List<Note> notes = query.getResultList();
+            // --- Close the session ---
+            session.close();
+            // Show the notes to the player
+            printNotes(player, compact, notes);
+        });
+    }
+
+    private void printNotes(final Player player, boolean compact, List<Note> notes) {
+        if (notes.isEmpty()) {
+            player.sendMessage("No notes found!");
+        }
+
+        for (Note note : notes) {
+            String message = note.getMessage();
+
+            if (compact) {
+                int endIndex = message.length() < 27 ? message.length() : 27;
+                player.sendMessage(note.getDate() + ": " + note.getMessage().substring(0, endIndex) + "...");
+            } else {
+                player.sendMessage(note.getDate() + ": " + note.getMessage() + "...");
+            }
+        }
+    }
+
+    private void deleteNotes(@NonNull Player player, @NonNull String[] args) {
+
+    }
+
+    private static String arrayToString(String[] array, int start) {
+        return arrayToString(array, start, array.length - 1);
+    }
+    private static String arrayToString(String[] array, int start, int end) {
+        // Make a string from the array
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = start; i <= end; ++i) {
+            // Append spaces conditionally
+            if (i != start) {
+                sb.append(' ');
+            }
+            // Append the word
+            sb.append(array[i]);
+        }
+
+        return sb.toString();
     }
 }

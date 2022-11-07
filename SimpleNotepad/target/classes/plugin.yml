@@ -10,5 +10,5 @@ libraries:
 commands:
   notepad:
     description: 'Your personal notepad'
-    usage: '/notepad [new | list | search | delete]'
+    usage: '/notepad [new | show | delete]'
     permission: 'simplenotepad.general'
