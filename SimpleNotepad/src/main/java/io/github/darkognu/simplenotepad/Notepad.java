@@ -122,7 +122,7 @@ public class Notepad implements CommandExecutor {
             String message = note.getMessage();
 
             if (compact) {
-                int endIndex = message.length() < 27 ? message.length() : 27;
+                int endIndex = Math.min(message.length(), 27);
                 String suffix = endIndex == 27 ? "..." : "";
                 player.sendMessage(note.getDate() + ": " + note.getMessage().substring(0, endIndex) + suffix);
             } else {
