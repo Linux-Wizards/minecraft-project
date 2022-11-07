@@ -128,7 +128,7 @@ public class Notepad implements CommandExecutor {
                 String suffix = endIndex == 27 ? "..." : "";
                 player.sendMessage(note.getDate() + ": " + note.getMessage().substring(0, endIndex) + suffix);
             } else {
-                player.sendMessage(note.getDate() + ": " + note.getMessage() + "...");
+                player.sendMessage(note.getDate() + ": " + note.getMessage());
             }
         }
 
