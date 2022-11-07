@@ -19,6 +19,7 @@ import java.util.List;
 public class Notepad implements CommandExecutor {
     private final SessionFactory sessionFactory;
     private final JavaPlugin plugin;
+    static final int max_results = 30;
 
     public Notepad(@NonNull SessionFactory sessionFactory, @NonNull JavaPlugin plugin) {
         this.sessionFactory = sessionFactory;
@@ -101,8 +102,8 @@ public class Notepad implements CommandExecutor {
             Root<Note> root = cq.from(Note.class);
             // --- Select appropriate rows ---
             cq.select(root).where(cb.equal(root.get("playerId"), player.getUniqueId()));
-            // Create a Query
-            Query<Note> query = session.createQuery(cq);
+            // Create a Query, show max. 30 results
+            Query<Note> query = session.createQuery(cq).setMaxResults(max_results);
             // Obtain the results!
             List<Note> notes = query.getResultList();
             // --- Close the session ---
@@ -122,15 +123,21 @@ public class Notepad implements CommandExecutor {
 
             if (compact) {
                 int endIndex = message.length() < 27 ? message.length() : 27;
-                player.sendMessage(note.getDate() + ": " + note.getMessage().substring(0, endIndex) + "...");
+                String suffix = endIndex == 27 ? "..." : "";
+                player.sendMessage(note.getDate() + ": " + note.getMessage().substring(0, endIndex) + suffix);
             } else {
                 player.sendMessage(note.getDate() + ": " + note.getMessage() + "...");
             }
         }
+
+        // If player reached the limit
+        if (notes.size() == max_results) {
+            player.sendMessage("The results limit (30) has been reached, not all results are shown.");
+        }
     }
 
     private void deleteNotes(@NonNull Player player, @NonNull String[] args) {
-
+        player.sendMessage("Not yet implemented!");
     }
 
     private static String arrayToString(String[] array, int start) {
