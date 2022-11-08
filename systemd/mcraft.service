@@ -1,0 +1,15 @@
+[Unit]
+Description=Minecraft service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+#User=root
+ExecStart=/path/to/dir/java -jar mc-start
+
+[Install]
+WantedBy=multi-user.target
+
