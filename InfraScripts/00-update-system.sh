@@ -10,7 +10,7 @@ if [ $exit_code -ne 0 ]; then
     echo
     echo "--- Upgrade possibly failed! ---
     echo "--- Not rebooting            ---
-    exit $?
+    exit $exit_code
 fi
 
 echo
