@@ -111,7 +111,7 @@ resource "oci_core_instance" "this" {
   compartment_id      = oci_identity_compartment.this.id
   shape               = local.shapes.flex
 
-  display_name         = "Oracle Linux"
+  display_name         = "Minecraft"
   preserve_boot_volume = false
 
   metadata = {
@@ -125,10 +125,11 @@ resource "oci_core_instance" "this" {
   }
 
   availability_config {
-    is_live_migration_preferred = null
+    is_live_migration_preferred = true
   }
 
   create_vnic_details {
+    private_ip = "10.10.10.10"
     assign_public_ip = false
     display_name     = "Minecraft - Server"
     hostname_label   = "minecraft"
@@ -172,11 +173,12 @@ resource "oci_core_instance" "that" {
   }
 
   availability_config {
-    is_live_migration_preferred = null
+    is_live_migration_preferred = true
   }
 
   create_vnic_details {
-    assign_public_ip = false
+    private_ip = "10.10.10.11" 
+    assign_public_ip = true
     display_name     = "Minecraft - Backup"
     hostname_label   = "minecraft-backup"
     nsg_ids          = [oci_core_network_security_group.this.id]
@@ -191,7 +193,7 @@ resource "oci_core_instance" "that" {
   source_details {
     source_id               = data.oci_core_images.this.images.0.id
     source_type             = "image"
-    boot_volume_size_in_gbs = 150
+    boot_volume_size_in_gbs = 50
     boot_volume_vpus_per_gb = 120
   }
 
@@ -200,18 +202,17 @@ resource "oci_core_instance" "that" {
   }
 }
 
-
-data "oci_core_private_ips" "that" {
-  ip_address = oci_core_instance.that.private_ip
+data "oci_core_private_ips" "this" {
+  ip_address = oci_core_instance.this.private_ip
   subnet_id  = oci_core_subnet.this.id
 }
 
-resource "oci_core_public_ip" "that" {
+resource "oci_core_public_ip" "this" {
   compartment_id = oci_identity_compartment.this.id
   lifetime       = "RESERVED"
 
-  display_name  = oci_core_instance.that.display_name
-  private_ip_id = data.oci_core_private_ips.that.private_ips.0.id
+  display_name  = oci_core_instance.this.display_name
+  private_ip_id = data.oci_core_private_ips.this.private_ips.0.id
 }
 
 resource "oci_core_volume_backup_policy" "this" {

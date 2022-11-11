@@ -1,4 +1,7 @@
 #+TITLE: terraform-oci-minecraft
+
+Warning - this is created by someone with no previous Terraform experience. I just wanted to get it up and running as quickly as possible.
+
 * What it is
   A Terraform configuration for compute resources on the Free Tier of Oracle Cloud Infrastructure.
 * What it does
@@ -33,8 +36,8 @@
     + One (1) A1 Flex instance running the latest Oracle Linux distribution with the following specifications:
       - 1 OCPUs
       - 6 GiB of memory
-      - 150 GiB of storage
-      - 1 reserved public IP address
+      - 50 GiB of storage
+      - 1 ephemeral public IP address
     + Two (2) volume backup policies that will create a backup of each boot volume on a daily basis and retain the backup for two days (due to the limitation of five volume backups)
   - The default security list that is explicitly associated with the subnet allows inbound traffic to ports 22 and 25565 from any origin and all outbound traffic to any destination.
   - The network security group associated with the instances' VNICs allows inbound ICMP echo (i.e. ping) traffic from any origin and all outbound traffic to any destination.
