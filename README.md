@@ -24,3 +24,6 @@ The compiled .jar file will be in `target/simplenotepad-1.0-SNAPSHOT.jar`.
 $ zip -r Terraform/ terraform.zip
 ```
 You will upload the .zip file to Oracle Cloud. More detailed instructions are in `Terraform/README.org`.
+
+3. Execute some scripts to prepare the Minecraft host and the backup host. You'll find the details in 'InfraScripts/README.md'.
+

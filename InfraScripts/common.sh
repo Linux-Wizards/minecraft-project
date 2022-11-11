@@ -4,7 +4,7 @@ info () { echo -e "\e[32m[INFO]\e[0m ${1}" ; }
 warn () { echo -e "\e[33m[WARN]\e[0m ${1}" ; }
 error () { echo -e "\e[31m[ERROR]\e[0m ${1}" ; }
 home_dir () { getent passwd "$1" | cut -d: -f6 ; } # https://superuser.com/questions/484277/get-home-directory-by-username
-user_group () { id -G minecraft ; }
+user_group () { id -G $1 ; }
 
 # Check if running as root
 if [ $(id -u) -ne 0 ]; then # https://stackoverflow.com/questions/18215973/how-to-check-if-running-as-root-in-a-bash-script
