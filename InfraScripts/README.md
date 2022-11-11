@@ -10,6 +10,7 @@ On the Minecraft host, execute the following scripts:
 - 05-update-system.sh
 - 10-install-mariadb.sh
 - 15-user-setup.sh
+- 20-install-java.sh
 
 On the backup host, execute the following scripts:
 - 05-update-system.sh
