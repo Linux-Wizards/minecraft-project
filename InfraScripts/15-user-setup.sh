@@ -23,6 +23,7 @@ chmod 440 "$sudoers_file"
 exit_on_fail "Can't create a drop-in $sudoers_file with proper permissions"
 
 # Configure sudoers
+info "Appending sudoers to the drop-in file"
 for user in ${sudoers[@]}; do
     line="$user ALL=(ALL) NOPASSWD:ALL"
     append_new "$sudoers_file" "$line"
@@ -30,3 +31,25 @@ for user in ${sudoers[@]}; do
 done
 
 # Setup SSH keys
+info "Configuring SSH authorized keys for the users"
+for user in ${users[@]}; do
+    new_key="keys/${user}"
+    if [ -f "$new_key" ]; then
+        ssh_dir="$(home_dir $user)/.ssh"
+        authorized_keys="${ssh_dir}/authorized_keys"
+
+        install -d -o "$user" -g "$(user_group $user)" -m 700 "$ssh_dir"
+        exit_on_fail "Can't create the .ssh directory ($ssh_dir) for $user"
+
+        # Do not overwrite existing authorized_keys
+        if [ ! -f "authorized_keys" ]; then
+            install -o "$user" -g "$(user_group $user)" -m 600 "$new_key" "$authorized_keys"
+            exit_on_fail "Can't install the authorized_keys file ($authorized_keys) for $user"
+        else
+            append_new $authorized_keys "$(<$new_keys)"
+            exit_on_fail "Can't append a new key to authorized_keys file ($authorized_keys) for $user"
+        fi
+    fi
+done
+
+info "SSH key configuration completed"
