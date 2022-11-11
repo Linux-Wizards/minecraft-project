@@ -15,7 +15,7 @@ basic_single_escape () {
 
 do_query () {
     mariadb -e "$1"
-    exit_on_fail "Securing MariaDB failed"
+    exit_on_fail "Setting up MariaDB failed"
 }
 
 info "Starting MariaDB installation"
