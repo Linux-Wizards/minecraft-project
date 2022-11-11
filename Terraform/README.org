@@ -1,5 +1,7 @@
 #+TITLE: terraform-oci-minecraft
 
+Based on [[https://github.com/RhubarbSin/terraform-oci-free-compute-maximal-example][RhubarbSin/terraform-oci-free-compute-maximal-example]].
+
 Warning - this is created by someone with no previous Terraform experience. I just wanted to get it up and running as quickly as possible.
 
 * What it is
