@@ -29,6 +29,7 @@ exit_on_fail "MariaDB couldn't be started and/or enabled"
 #
 # Secure the database
 #
+info "Securing the database"
 esc_pass=`basic_single_escape "$db_root_pass"`
 do_query "UPDATE mysql.global_priv SET priv=json_set(priv, '$.plugin', 'mysql_native_password', '$.authentication_string', PASSWORD('$esc_pass')) WHERE User='root';"
 
@@ -39,10 +40,21 @@ do_query "DELETE FROM mysql.global_priv WHERE User='root' AND Host NOT IN ('loca
 do_query "DROP DATABASE IF EXISTS test;"
 
 do_query "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'"
-
-do_query "FLUSH PRIVILEGES;"
+# Don't flush privileges here - do it at the end
+info "Finished securing the database"
 
 #
 # Configure the database for Minecraft
 #
+info "Configuring the database for Minecraft"
+esc_pass=`basic_single_escape "$db_pass"`
 
+do_query "CREATE DATABASE IF NOT EXISTS $db_name;"
+
+do_query "CREATE USER IF NOT EXISTS '$db_user'@'localhost' IDENTIFIED BY '$esc_pass';"
+
+do_query "GRANT ALL PRIVILEGES ON ${db_name}.* TO '$db_user'@'localhost';"
+
+# Finally - flush privileges
+do_query "FLUSH PRIVILEGES;"
+info "Finished configuring the database"
