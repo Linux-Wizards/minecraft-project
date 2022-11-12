@@ -1,5 +1,5 @@
 name: 'SimpleNotepad'
-version: '0.1'
+version: '0.2'
 main: 'io.github.darkognu.simplenotepad.SimpleNotepad'
 api-version: '1.19'
 libraries:
@@ -7,8 +7,12 @@ libraries:
   - 'org.hibernate.orm:hibernate-core:6.1.5.Final'
   - 'org.hibernate.orm:hibernate-hikaricp:6.1.5.Final'
   - 'com.hubspot.jinjava:jinjava:2.6.0'
+permissions:
+  simplenotepad:
+    description: 'Allows you to use SimpleNotepad'
+    default: true
 commands:
   notepad:
     description: 'Your personal notepad'
     usage: '/notepad [new | show | delete]'
-    permission: 'simplenotepad.general'
+    permission: 'simplenotepad'
