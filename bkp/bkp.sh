@@ -1,4 +1,4 @@
-#!/bin/bas
+#!/bin/bash
 
 info () { echo -e "\e[32m[INFO]\e[0m ${1}" ; }
 warn () { echo -e "\e[33m[WARN]\e[0m ${1}" ; }
@@ -43,6 +43,6 @@ case $comm in
 			;;
         "-h"|"--help") helper ;;
 
-        *) echo "** Bad input, use -h|--help **" ;;
+        *) info "** Bad input, use -h|--help **" ;;
 esac
      
