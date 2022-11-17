@@ -23,12 +23,7 @@ mkdir -p -m 777 /tmp/minecraft-project/
 cp -a $(readlink -f common.sh) /tmp/minecraft-project/
 
 info "Beginnig server installation "
-sudo --user="$username" \ 
-	install_dir="$install_dir" \
-	online_mode="$online_mode" \
-	rcon_password="$rcon_password" \
-	download_location="$download_location" \
-	./installation2.0-2.sh \	
+sudo --user="$username" install_dir="$install_dir" online_mode="$online_mode" rcon_password="$rcon_password" download_location="$download_location" ./installation2.0-2.sh	
 
 exit_on_fail "Failed to start installation"
 
