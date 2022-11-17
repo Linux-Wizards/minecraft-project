@@ -1,0 +1,1 @@
+../InfraScripts/check-root.sh
