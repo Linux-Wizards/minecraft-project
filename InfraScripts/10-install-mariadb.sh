@@ -9,6 +9,9 @@ db_root_pass="linuxwizards"
 # Get functions: info, error, exit_on_fail
 source common.sh
 
+# Check if running as root
+source check-root.sh
+
 basic_single_escape () {
     echo "$1" | sed 's/\(['"'"'\]\)/\\\1/g'
 }

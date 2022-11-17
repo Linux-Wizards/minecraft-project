@@ -3,6 +3,9 @@
 # Get functions: info, error, exit_on_fail
 source common.sh
 
+# Check if running as root
+source check-root.sh
+
 info "Beginning an upgrade"
 
 yum -y upgrade --refresh

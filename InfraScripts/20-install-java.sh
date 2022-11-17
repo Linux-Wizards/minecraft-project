@@ -5,6 +5,9 @@ java_package="jdk-19-headless"
 # Get functions: info, error, exit_on_fail
 source common.sh
 
+# Check if running as root
+source check-root.sh
+
 info "Beginning Java installation"
 
 yum -y install "$java_package"

@@ -7,6 +7,9 @@ sudoers=(darek fafa wojtek)
 # Get functions: info, warn, error, exit_on_fail, append_new
 source common.sh
 
+# Check if running as root
+source check-root.sh
+
 info "Beginning user creation"
 # Create all the users
 for user in ${users[@]}; do
