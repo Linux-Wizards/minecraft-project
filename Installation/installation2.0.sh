@@ -13,14 +13,23 @@ rcon_password="linuxwizards"
 # Server jar address 
 download_location="https://api.papermc.io/v2/projects/paper/versions/${mc_version}/builds/${paper_build}/downloads/paper-${mc_version}-${paper_build}.jar"
 
-# Variables to preserve
-variables_preserved="mc_version,paper_build,username,install_dir,online_mode,rcon_password,download_location"
-
 # Getting useful functions
 source common.sh
 
 # Check if user is root 
 source check-root.sh
 
-sudo --preserve-env="$variables_preserved" --user="$username" ./installation2.0-2.sh
+mkdir -p -m 777 /tmp/minecraft-project/
+cp -a $(readlink -f common.sh) /tmp/minecraft-project/
 
+info "Beginnig server installation "
+sudo --user="$username" \ 
+	install_dir="$install_dir" \
+	online_mode="$online_mode" \
+	rcon_password="$rcon_password" \
+	download_location="$download_location" \
+	./installation2.0-2.sh \	
+
+exit_on_fail "Failed to start installation"
+
+info "Installation success"
