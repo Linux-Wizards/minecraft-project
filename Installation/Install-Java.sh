@@ -8,7 +8,7 @@ java_version="java-17"
 java_repo_dir="/etc/yum.repos.d/corretto.repo"
 java_repo_url="https://yum.corretto.aws/corretto.repo"
 
-rpm -qa | grep "$java_version"
+rpm -qa | grep -q "$java_version"
 exit_code=$?
 
 if [ "$exit_code" -ne 0 ]; then
