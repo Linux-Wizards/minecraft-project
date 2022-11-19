@@ -21,11 +21,13 @@ source check-root.sh
 
 mkdir -p -m 777 /tmp/minecraft-project/
 cp -a $(readlink -f common.sh) /tmp/minecraft-project/
-cp -a installation2.0-2.sh /tmp/minecraft-project/
+cp -a Install-Minecraft.sh /tmp/minecraft-project/
 
 info "Beginnig server installation "
-sudo --login --user="$username" install_dir="$install_dir" online_mode="$online_mode" rcon_password="$rcon_password" download_location="$download_location" /tmp/minecraft-project/installation2.0-2.sh	
 
+./Install-Java.sh
+
+sudo --login --user="$username" install_dir="$install_dir" online_mode="$online_mode" rcon_password="$rcon_password" download_location="$download_location" /tmp/minecraft-project/Install-Minecraft.sh
 exit_on_fail "Failed to start installation"
 
 info "Installation success"
