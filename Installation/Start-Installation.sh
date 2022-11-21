@@ -15,7 +15,13 @@ cp -a Install-Minecraft.sh /tmp/minecraft-project/
 
 info "Beginnig server installation "
 
+#Java installation
 ./Install-Java.sh
+
+#Mcrcon installation
+./Install-Mcrcon.sh 
+
+#Minecraft installation
 sudo --login --user="$username" /tmp/minecraft-project/Install-Minecraft.sh
 exit_on_fail "Failed to start minecraft installation"
 
