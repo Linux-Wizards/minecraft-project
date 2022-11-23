@@ -20,8 +20,8 @@ info "Created server directory ${PWD}/${install_dir}"
 cd "$install_dir" 
 
 info "Starting download" 
-#curl -o paper.jar "$download_location"
-#exit_on_fail "Failed to download" 
+curl -o paper.jar "$download_location"
+exit_on_fail "Failed to download" 
 info "Finished download"
 info "Accepting eula.txt" 
 echo "eula=true" > eula.txt
