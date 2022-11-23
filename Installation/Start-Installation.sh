@@ -25,4 +25,7 @@ info "Beginnig server installation "
 sudo --login --user="$username" /tmp/minecraft-project/Install-Minecraft.sh
 exit_on_fail "Failed to start minecraft installation"
 
+# Systemd copying 
+./Install-Minecraftd.sh
+
 info "Installation success"
