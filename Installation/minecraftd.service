@@ -19,7 +19,7 @@ ExecStart=/bin/java -Xms10G -Xmx10G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX
 ExecStop=/bin/mcrcon -H localhost -P 25575 -p linuxwizards stop
 
 Restart=always
-RestarSec=10
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
