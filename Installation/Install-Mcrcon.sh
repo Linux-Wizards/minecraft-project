@@ -3,12 +3,14 @@
 source common.sh
 
 #Installing mcrcon  
-rpm -qa | grep -q mcrcon
+which mcrcon &>/dev/null 
 exit_code=$?
 if [ $exit_code == 0 ]; then 
 	info "mcrcon already installed" 
-else 	
-	yum install -y mcrcon
+else 
+	cd /tmp/
+	git clone https://github.com/Tiiffi/mcrcon.git
+	cd mcrcon && make && make install 	
 	exit_on_fail "Failed to install mcrcon" 
 	info "Installed mcrcon"
 fi 
