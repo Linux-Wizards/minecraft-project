@@ -11,7 +11,8 @@ SuccessExitStatus=0 1
 KillMode=none
 
 ProtectSystem=strict
-ProtectHome=yes
+# Doesn't really work
+# ProtectHome=yes
 PrivateDevices=true
 NoNewPrivileges=true
 

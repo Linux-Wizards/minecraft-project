@@ -107,7 +107,7 @@ data "oci_core_images" "this" {
 }
 
 resource "oci_core_instance" "this" {
-  availability_domain = data.oci_identity_availability_domains.this.availability_domains.1.name
+  availability_domain = data.oci_identity_availability_domains.this.availability_domains.2.name
   compartment_id      = oci_identity_compartment.this.id
   shape               = local.shapes.flex
 
@@ -155,7 +155,7 @@ resource "oci_core_instance" "this" {
 }
 
 resource "oci_core_instance" "that" {
-  availability_domain = data.oci_identity_availability_domains.this.availability_domains.1.name
+  availability_domain = data.oci_identity_availability_domains.this.availability_domains.2.name
   compartment_id      = oci_identity_compartment.this.id
   shape               = local.shapes.flex
 
