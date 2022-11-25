@@ -36,8 +36,8 @@ done
 # Setup SSH keys
 info "Configuring SSH authorized keys for the users"
 for user in ${users[@]}; do
-    new_key="keys/${user}"
-    if [ -f "$new_key" ]; then
+    new_keys="keys/${user}"
+    if [ -f "$new_keys" ]; then
         ssh_dir="$(home_dir $user)/.ssh"
         authorized_keys="${ssh_dir}/authorized_keys"
 
@@ -46,11 +46,13 @@ for user in ${users[@]}; do
 
         # Do not overwrite existing authorized_keys
         if [ ! -f "authorized_keys" ]; then
-            install -o "$user" -g "$(user_group $user)" -m 600 "$new_key" "$authorized_keys"
+            install -o "$user" -g "$(user_group $user)" -m 600 "$new_keys" "$authorized_keys"
             exit_on_fail "Can't install the authorized_keys file ($authorized_keys) for $user"
         else
-            append_new $authorized_keys "$(<$new_keys)"
-            exit_on_fail "Can't append a new key to authorized_keys file ($authorized_keys) for $user"
+            while read key; do
+                append_new "$authorized_keys" "$key"
+                exit_on_fail "Can't append a new key to authorized_keys file ($authorized_keys) for $user"
+            done < "$new_keys"
         fi
     fi
 done
