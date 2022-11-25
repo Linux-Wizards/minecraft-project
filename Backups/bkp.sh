@@ -16,33 +16,41 @@ Usage: $0 [option]
 EOF
 }
 
-DDIR=/home/user/backup/daily
-WDIR=/home/user/backup/weekly
-MDIR=/home/user/backup/monthly
+errLog=/tmp/daily.log
+bkpserver=minecraft-backup.inspir.ovh
 
+bkpDIR=/home/minecraft/server
+bDDIR=/home/wojtek/backups/daily
+bWDIR=/home/wojtek/backups/weekly
+bMDIR=/home/wojtek/backups/monthly
+bPATH=/home/wojtek/backups
+
+
+> $errLog
 comm=$1
 [[ $# -gt 1 ]] && { warn "** Used too many args. Use only one. **"; exit 0; }
 case $comm in
         "-d"|"--daily")
         		#tutaj info do uzytkownika, za ~1min wylaczenie serwera / serwer STOP / *rsync* / serwer START
-       		 	tar -zcf $DDIR/backup-$(date +%Y%m%d).tar.gz -C path/to/backup-dir/ to
-			find $DDIR/* -mtime +7 -delete		#delete older than week
-			rsync -a --delete $DDIR/ ubuntu@mcraft.imth.tk:~/backups/daily/ 2>/ramdisk/daily.log
+       		 	tar -zcf $bDDIR/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
+			find $bDDIR/* -mtime +7 -delete		#delete older than week
+			#rsync -a --delete $bPATH wojtek@$bkpserver:~/ 2>/tmp/daily.log
+			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bPATH wojtek@$bkpserver:~/
 			;;
         "-w"|"--weekly")
         		#tutaj info do uzytkownika, za ~1min wylaczenie serwera / serwer STOP / *rsync* / serwer START
-			tar -zcf $WDIR/backup-$(date +%Y%m%d).tar.gz -C path/to/backup-dir/ to
-                        find $WDIR/* -mtime +31 -delete		#delete older than month
-                        rsync -a --delete $WDIR/ ubuntu@mcraft.imth.tk:~/backups/weekly/ 2>/ramdisk/weekly.log
+			tar -zcf $bWDIR/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
+                        find $bWDIR/* -mtime +31 -delete		#delete older than month
+			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bPATH wojtek@$bkpserver:~/
 			;;
         "-m"|"--monthly")
         		#tutaj info do uzytkownika, za ~1min wylaczenie serwera / serwer STOP / *rsync* / serwer START
-                        tar -zcf $MDIR/backup-$(date +%Y%m%d).tar.gz -C path/to/backup-dir/ to
-                        find $MDIR/* -mtime +365 -delete	#delete older than year
-                        rsync -a --delete $MDIR/ ubuntu@mcraft.imth.tk:~/backups/monthly/ 2>/ramdisk/monthly.log
+                        tar -zcf $bMDIR/backup-$(date +%Y%m%d).tar.gz -C /home/minecrafr server
+                        find $bMDIR/* -mtime +365 -delete	#delete older than year
+			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bPATH wojtek@$bkpserver:~/
 			;;
         "-h"|"--help") helper ;;
 
         *) info "** Bad input, use -h|--help **" ;;
 esac
-     
+    
