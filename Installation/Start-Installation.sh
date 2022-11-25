@@ -29,6 +29,7 @@ exit_on_fail "Failed to start minecraft installation"
 firewall-cmd -q --add-port=25565/tcp --permanent
 exit_on_fail "Failed to configure firewall" 
 firewall-cmd -q --reload
+info "Firewall configured port 25565/tcp"
 
 # Systemd copying 
 ./Install-Minecraftd.sh
