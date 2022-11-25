@@ -15,15 +15,20 @@ cp -a Install-Minecraft.sh /tmp/minecraft-project/
 
 info "Beginnig server installation "
 
-#Java installation
+# Java installation
 ./Install-Java.sh
 
-#Mcrcon installation
+# Mcrcon installation
 ./Install-Mcrcon.sh 
 
-#Minecraft installation
+# Minecraft installation
 sudo --login --user="$username" /tmp/minecraft-project/Install-Minecraft.sh
 exit_on_fail "Failed to start minecraft installation"
+
+# Firewall config 
+firewall-cmd -q --add-port=25565/tcp --permanent
+exit_on_fail "Failed to configure firewall" 
+firewall-cmd -q --reload
 
 # Systemd copying 
 ./Install-Minecraftd.sh
