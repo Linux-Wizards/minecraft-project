@@ -18,13 +18,7 @@ EOF
 
 errLog=/tmp/daily.log
 bkpserver=minecraft-backup.inspir.ovh
-
-bkpDIR=/home/minecraft/server
-bDDIR=/home/wojtek/backups/daily
-bWDIR=/home/wojtek/backups/weekly
-bMDIR=/home/wojtek/backups/monthly
-bPATH=/home/wojtek/backups
-
+bDIR=/home/wojtek/backups
 
 > $errLog
 comm=$1
@@ -32,22 +26,22 @@ comm=$1
 case $comm in
         "-d"|"--daily")
         		#tutaj info do uzytkownika, za ~1min wylaczenie serwera / serwer STOP / *rsync* / serwer START
-       		 	tar -zcf $bDDIR/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
-			find $bDDIR/* -mtime +7 -delete		#delete older than week
+       		 	tar -zcf $bDIR/daily/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
+			find $bDIR/daily* -mtime +7 -delete		#delete older than week
 			#rsync -a --delete $bPATH wojtek@$bkpserver:~/ 2>/tmp/daily.log
-			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bPATH wojtek@$bkpserver:~/
+			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
 			;;
         "-w"|"--weekly")
         		#tutaj info do uzytkownika, za ~1min wylaczenie serwera / serwer STOP / *rsync* / serwer START
-			tar -zcf $bWDIR/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
-                        find $bWDIR/* -mtime +31 -delete		#delete older than month
-			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bPATH wojtek@$bkpserver:~/
+			tar -zcf $bDIR/weekly/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
+                        find $bDIR/weekly/* -mtime +31 -delete		#delete older than month
+			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
 			;;
         "-m"|"--monthly")
         		#tutaj info do uzytkownika, za ~1min wylaczenie serwera / serwer STOP / *rsync* / serwer START
-                        tar -zcf $bMDIR/backup-$(date +%Y%m%d).tar.gz -C /home/minecrafr server
-                        find $bMDIR/* -mtime +365 -delete	#delete older than year
-			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bPATH wojtek@$bkpserver:~/
+                        tar -zcf $bDIR/monthly/backup-$(date +%Y%m%d).tar.gz -C /home/minecrafr server
+                        find $bDIR/monthly/* -mtime +365 -delete	#delete older than year
+			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
 			;;
         "-h"|"--help") helper ;;
 
