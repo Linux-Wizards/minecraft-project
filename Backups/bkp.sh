@@ -27,7 +27,7 @@ case $comm in
         "-d"|"--daily")
         		#tutaj info do uzytkownika, za ~1min wylaczenie serwera / serwer STOP / *rsync* / serwer START
        		 	tar -zcf $bDIR/daily/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
-			find $bDIR/daily* -mtime +7 -delete		#delete older than week
+			find $bDIR/daily/* -mtime +7 -delete		#delete older than week
 			#rsync -a --delete $bPATH wojtek@$bkpserver:~/ 2>/tmp/daily.log
 			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
 			;;
