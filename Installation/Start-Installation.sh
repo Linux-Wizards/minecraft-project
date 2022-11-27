@@ -25,6 +25,10 @@ info "Beginnig server installation "
 sudo --login --user="$username" /tmp/minecraft-project/Install-Minecraft.sh
 exit_on_fail "Failed to start minecraft installation"
 
+# SimpleNotepad plugin installation 
+sudo --login --user="$username" /tmp/minecraft-project/Install-SimpleNotepad.sh
+exit_on_fail "Failed to start SimpleNotepad plugin installation"
+
 # Firewall config 
 firewall-cmd -q --add-port=25565/tcp --permanent
 exit_on_fail "Failed to configure firewall" 
