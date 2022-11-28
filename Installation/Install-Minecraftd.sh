@@ -9,5 +9,5 @@ cp --preserve=mode "$service_name" /etc/systemd/system/
 
 # Enabling service 
 systemctl daemon-reload 
-systemctl enable $service_name
+systemctl enable --now $service_name
 info "Enabled $service_name"

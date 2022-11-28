@@ -1,0 +1,9 @@
+Hello, this is the installation script for minecraft server. 
+
+1. Please start this script as root user otherwise it won't start. 
+2. Installation will perform few actions which will take few second.
+3. Once the process wil complete, the host will start automatically. 
+You can check your server status by typing systemctl status minecraftd.service 
+4. Enjoy you minecraft host. 
+
+Installation process from GWSH linux wizards team, have fun! 
