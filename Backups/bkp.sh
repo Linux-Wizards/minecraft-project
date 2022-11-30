@@ -17,7 +17,7 @@ Usage: $0 [option]
 EOF
 }
 
-function mcounter()
+mcounter()
 {
 	mcrcon -H localhost -P 25575 -p linuxwizards "say [Backup] Server will be stopped in 30 minutes for backup."
 	sleep 15m
