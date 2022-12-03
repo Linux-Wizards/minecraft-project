@@ -6,12 +6,12 @@ error () { echo -e "\e[31m[ERROR]\e[0m ${1}" ; }
 
 fbfile=fullbackup
 DSTDIR=/home/minecraft/
-BKPStar=wojtek@minecraft-backup.inspir.ovh:/home/wojtek/backups/*/*.tar.gz
+BKPStar=wojtek@minecraft-backup.inspir.ovh:/home/wojtek/backups/*/*.tar
 BKPSdump=wojtek@minecraft-backup.inspir.ovh:/home/wojtek/backups/*/*.dump
 read -p "Choose what do you want to restore? Type - backup or dump: " chs
 case $chs in
 	"dump")
-		mkdir -p $(pwd)/restore_dump && cd "$_"
+		mkdir -p ~/restore_dump && cd "$_"
 		rsync $BKPSdump .
 		PS3='Choose number of a file which do you want to restore: '
 		select file in $(ls -A1 *.dump); do
@@ -26,7 +26,7 @@ case $chs in
 
 		;;
 	"backup")
-		mkdir -p $(pwd)/restore_tar $$ cd "$_"
+		[[ ! -f "~/restore_tar" ]] && { mkdir -p ~/restore_tar && cd "$_"; }
 		rsync -r $BKPStar .
 	       	PS3='Choose number of a file which do you want to restore, or use ^C to break: '
 		select file in $(ls -A1 *.tar | grep -v "fullbackup.tar"); do 
