@@ -29,7 +29,7 @@ mcounter()
 
 bkpserver=minecraft-backup.inspir.ovh
 bDIR=/home/wojtek/backups
-
+fbfile=fullbackup
 comm=$1
 [[ $# -gt 1 ]] && { warn "** Used too many args. Use only one. **"; exit 0; }
 case $comm in
@@ -37,17 +37,18 @@ case $comm in
         		
 			mcounter
 			systemctl stop minecraftd
-       		 	tar -zcf $bDIR/daily/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
+       		 	[[ ! -f "$fbfile.tar" ]] && { tar -zcf $bDIR/daily/$fbfile.tar -g $fbfile.snar -C /home/minecraft server; }
+			tar -zcf $bDIR/daily/incremental-$(date +%Y%m%d).tar -g $bDIR/daily/data-$(date +%Y%m%d).snar -C /home/minecraft server	
 			mysqldump -u root --all-databases > $bDIR/daily/mysqldump-$(date +%Y%m%d).dump
 			find $bDIR/daily/* -mtime +7 -delete		#delete older than week
-			#rsync -a --delete $bPATH wojtek@$bkpserver:~/ 2>/tmp/daily.log
 			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
 			systemctl start minecraftd
 			;;
         "-w"|"--weekly")
 			mcounter
 			systemctl stop minecraftd
-			tar -zcf $bDIR/weekly/backup-$(date +%Y%m%d).tar.gz -C /home/minecraft server
+                        [[ ! -f "$fbfile.tar" ]] && { tar -zcf $bDIR/weekly/$fbfile.tar -g $fbfile.snar -C /home/minecraft server; }
+                        tar -zcf $bDIR/weekly/incremental-$(date +%Y%m%d).tar -g $bDIR/monthly/data-$(date +%Y%m%d).snar -C /home/minecraft server
 			mysqldump -u root --all-databases > $bDIR/weekly/mysqldump-$(date +%Y%m%d).dump
                         find $bDIR/weekly/* -mtime +31 -delete		#delete older than month
 			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
@@ -56,7 +57,8 @@ case $comm in
         "-m"|"--monthly")
                         mcounter
 			systemctl stop minecraftd
-			tar -zcf $bDIR/monthly/backup-$(date +%Y%m%d).tar.gz -C /home/minecrafr server
+                        [[ ! -f "$fbfile.tar" ]] && { tar -zcf $bDIR/monthly/$fbfile.tar -g $fbfile.snar -C /home/minecraft server; }
+                        tar -zcf $bDIR/monthly/incremental-$(date +%Y%m%d).tar -g $bDIR/monthly/data-$(date +%Y%m%d).snar -C /home/minecraft server
 			mysqldump -u root --all-databases > $bDIR/monthly/mysqldump-$(date +%Y%m%d).dump
                         find $bDIR/monthly/* -mtime +365 -delete	#delete older than year
 			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
