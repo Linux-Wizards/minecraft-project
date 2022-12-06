@@ -14,19 +14,75 @@ case $chs in
 	"dump")
 		mkdir -p ~/restore_dump && cd "$_"
 		rsync -r --delete $BKPSdump .
-		PS3='Choose number of a file which do you want to restore: '
-		select file in $(ls -A1 *.dump); 
+		info "Choose an option below: "
+		select opt in daily weekly monthly quit;
 		do
-                        read -p "You are going to restore database with file: $file. Are you sure? (type yes|no): " sel
-                        case $sel in
-                                "yes") echo "mysql -u root -p mc_db < $file"  ;;
-                                "no") echo "bye"; break ;;
-                                *)
-                        esac
+			case $opt in
+				"daily")
+					if [[ -f $(ls /root/restore_dump/daily*.dump 2>/dev/null) ]];
+					then
+						info "Choose a dump you want to restore: "
+						select file in $(ls -A1 daily*.dump);
+						do
+							[[ "$?" != "0" ]] && { error "No dumps found"; }
+							warn; read -p "You are going to restore database file - $file. Are you sure? (type yes|no): " sel
+							case $sel in
+								"yes")
+								info "Restoring database from $file"
+								echo "mysql -u root < $file"
+								;;
+							esac
+						done
+					else 
+						error "Daily dump does not exist"
+					fi
+					;;
+				"weekly")
+                                        if [[ -f $(ls /root/restore_dump/weekly*.dump 2>/dev/null) ]];
+                                        then
+						info "Choose a dump you want to restore: "
+                                                select file in $(ls -A1 weekly*.dump);
+                                                do
+                                                        [[ "$?" != "0" ]] && { error "No dumps found"; }
+                                                        warn; read -p "You are going to restore database file - $file. Are you sure? (type yes|no): " sel
+                                                        case $sel in
+                                                                "yes")
+                                                                info "Restoring database from $file"
+                                                                echo "mysql -u root < $file"
+                                                                ;;
+                                                        esac
+                                                done
+                                        else 
+                                                error "Weekly dump does not exist"
+                                        fi
+                                        ;;
+				"monthly")
+                                        if [[ -f $(ls /root/restore_dump/monthly*.dump 2>/dev/null) ]];
+                                        then	
+						info "Choose a dump you want to restore: "
+                                                select file in $(ls -A1 monthly*.dump);
+                                                do
+                                                        [[ "$?" != "0" ]] && { error "No dumps found"; }
+                                                        warn; read -p "You are going to restore database file - $file. Are you sure? (type yes|no): " sel
+                                                        case $sel in
+                                                                "yes")
+                                                                info "Restoring database from $file"
+                                                                echo "mysql -u root < $file"
+                                                                ;;
+                                                        esac
+                                                done
+                                        else 
+                                                error "Monthly dump does not exist"
+                                        fi
+                                        ;;
+				"quit") break ;;
+				*) warn "Invalid option $REPLY" ;;
+					
+			esac
 
-                done
-
+		done
 		;;
+
 	"backup")
 		[[ ! -f "~/restore_tar" ]] && { mkdir -p ~/restore_tar && cd "$_"; }
 		rsync -r --delete $BKPStar .
