@@ -8,11 +8,11 @@ fbfile=fullbackup
 DSTDIR=/home/minecraft/
 BKPStar=wojtek@minecraft-backup.inspir.ovh:/home/wojtek/backups/*/*.tar
 BKPSdump=wojtek@minecraft-backup.inspir.ovh:/home/wojtek/backups/*/*.dump
-
+rDIR=/home/wojtek
 read -p "Choose what do you want to restore? Type - backup or dump: " chs
 case $chs in
 	"dump")
-		mkdir -p ~/restore_dump && cd "$_"
+		[[ ! -f "$rDIR/restore_"$chs"" ]] && { mkdir -p $rDIR/restore_"$chs" && cd "$_"; }
 		rsync -r --delete $BKPSdump .
 		info "Choose an option below: "
 		select opt in daily weekly monthly quit;
@@ -84,7 +84,7 @@ case $chs in
 		;;
 
 	"backup")
-		[[ ! -f "~/restore_tar" ]] && { mkdir -p ~/restore_tar && cd "$_"; }
+		[[ ! -f "$rDIR/restore_"$chs"" ]] && { mkdir -p $rDIR/restore_"$chs" && cd "$_"; }
 		rsync -r --delete $BKPStar .
 	       	PS3='Choose an option of backup to restore, or use ^C to break: '
 		select opt in daily weekly monthly quit; 
