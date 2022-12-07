@@ -19,7 +19,7 @@ case $chs in
 		do
 			case $opt in
 				"daily")
-					if [[ -f $(ls /root/restore_dump/daily*.dump 2>/dev/null) ]];
+					if [[ -f $(ls $rDIR/restore_"$chs"/daily*.dump 2>/dev/null) ]];
 					then
 						info "Choose a dump you want to restore: "
 						select file in $(ls -A1 daily*.dump);
@@ -38,7 +38,7 @@ case $chs in
 					fi
 					;;
 				"weekly")
-                                        if [[ -f $(ls /root/restore_dump/weekly*.dump 2>/dev/null) ]];
+                                        if [[ -f $(ls $rDIR/restore_"$chs"/weekly*.dump 2>/dev/null) ]];
                                         then
 						info "Choose a dump you want to restore: "
                                                 select file in $(ls -A1 weekly*.dump);
@@ -57,7 +57,7 @@ case $chs in
                                         fi
                                         ;;
 				"monthly")
-                                        if [[ -f $(ls /root/restore_dump/monthly*.dump 2>/dev/null) ]];
+                                        if [[ -f $(ls $rDIR/restore_"$chs"/monthly*.dump 2>/dev/null) ]];
                                         then	
 						info "Choose a dump you want to restore: "
                                                 select file in $(ls -A1 monthly*.dump);
