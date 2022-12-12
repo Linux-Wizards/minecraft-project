@@ -142,5 +142,7 @@ case $chs in
 				*) warn "Invalid option $REPLY" ;;
 			esac
 		done
+		;;
+	*)  error "Bad input." ;;
 esac
 
