@@ -35,6 +35,12 @@ mDIR=/home/wojtek/backups/monthly
 fbfile=fullbackup
 comm=$1
 DEBUG=no	#set DEBUG=yes to skip 30m sleeping by mcounter function
+
+if [ $(id -u) -ne 0 ]; then
+    error "Please run this script as root!"
+    exit 1
+fi
+
 [[ $# -gt 1 ]] && { warn "** Used too many args. Use only one. **"; exit 0; }
 case $comm in
         "-d"|"--daily")

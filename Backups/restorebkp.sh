@@ -9,6 +9,12 @@ DSTDIR=/home/minecraft/
 BKPStar=wojtek@minecraft-backup.inspir.ovh:/home/wojtek/backups/*/*.tar
 BKPSdump=wojtek@minecraft-backup.inspir.ovh:/home/wojtek/backups/*/*.dump
 rDIR=/home/wojtek
+
+if [ $(id -u) -ne 0 ]; then 
+    error "Please run this script as root!"
+    exit 1
+fi
+
 read -p "Choose what do you want to restore? Type - backup or dump: " chs
 case $chs in
 	"dump")
