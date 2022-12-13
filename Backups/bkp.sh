@@ -47,8 +47,8 @@ case $comm in
         		
 			[[ "$DEBUG" == "no" ]] && mcounter
 			systemctl stop minecraftd
-       		 	[[ "$(ls $dDIR/$fbfile-${dDIR:21}-*.tar | wc -l)" -eq 0 ]] && { tar -cf $dDIR/$fbfile-${dDIR:21}-$(date +%Y%m%d).tar -g $dDIR/$fbfile.snar -C /home/minecraft server; }
-			tar -cf $dDIR/incremental-${dDIR:21}-$(date +%Y%m%d).tar -g $dDIR/data-$(date +%Y%m%d).snar -C /home/minecraft server	
+       		 	[[ "$(ls $dDIR/$fbfile-${dDIR:21}-*.tar | wc -l)" -eq 0 ]] && { tar -cf $dDIR/$fbfile-${dDIR:21}-$(date +%Y%m%d).tar -g $dDIR/data_daily.snar -C /home/minecraft server; }
+			tar -cf $dDIR/incremental-${dDIR:21}-$(date +%Y%m%d).tar -g $dDIR/data_daily.snar -C /home/minecraft server	
 			mysqldump -u root --all-databases > $dDIR/${dDIR:21}-mysqldump-$(date +%Y%m%d).dump
 			find $dDIR/* -mtime +7 -delete		#delete older than week
 			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
@@ -57,8 +57,8 @@ case $comm in
         "-w"|"--weekly")
 			[[ "$DEBUG" == "no" ]] && mcounter
 			systemctl stop minecraftd
-                        [[ "$(ls $dDIR/$fbfile-${dDIR:21}-*.tar | wc -l)" -eq 0 ]] && { tar -cf $wDIR/$fbfile-${wDIR:21}-$(date +%Y%m%d).tar -g $wDIR/$fbfile.snar -C /home/minecraft server; }
-                        tar -cf $wDIR/incremental-${wDIR:21}-$(date +%Y%m%d).tar -g $wDIR/data-$(date +%Y%m%d).snar -C /home/minecraft server
+                        [[ "$(ls $dDIR/$fbfile-${dDIR:21}-*.tar | wc -l)" -eq 0 ]] && { tar -cf $wDIR/$fbfile-${wDIR:21}-$(date +%Y%m%d).tar -g $wDIR/data_weekly.snar -C /home/minecraft server; }
+                        tar -cf $wDIR/incremental-${wDIR:21}-$(date +%Y%m%d).tar -g $wDIR/data_weekly.snar -C /home/minecraft server
 			mysqldump -u root --all-databases > $wDIR/${wDIR:21}-mysqldump-$(date +%Y%m%d).dump
                         find $wDIR/* -mtime +31 -delete		#delete older than month
 			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
@@ -67,8 +67,8 @@ case $comm in
         "-m"|"--monthly")
 			[[ "$DEBUG" == "no" ]] && mcounter
 			systemctl stop minecraftd
-                        [[ "$(ls $dDIR/$fbfile-${dDIR:21}-*.tar | wc -l)" -eq 0 ]] && { tar -cf $mDIR/$fbfile-${mDIR:21}-$(date +%Y%m%d).tar -g $mDIR/$fbfile.snar -C /home/minecraft server; }
-                        tar -cf $mDIR/incremental-${mDIR:21}-$(date +%Y%m%d).tar -g $mDIR/data-$(date +%Y%m%d).snar -C /home/minecraft server
+                        [[ "$(ls $dDIR/$fbfile-${dDIR:21}-*.tar | wc -l)" -eq 0 ]] && { tar -cf $mDIR/$fbfile-${mDIR:21}-$(date +%Y%m%d).tar -g $mDIR/data_monthly.snar -C /home/minecraft server; }
+                        tar -cf $mDIR/incremental-${mDIR:21}-$(date +%Y%m%d).tar -g $mDIR/data_monthly.snar -C /home/minecraft server
 			mysqldump -u root --all-databases > $mDIR/${mDIR:21}-mysqldump-$(date +%Y%m%d).dump
                         find $mDIR/* -mtime +365 -delete	#delete older than year
 			rsync -e "ssh -o StrictHostKeyChecking=no" -a --delete $bDIR wojtek@$bkpserver:~/
