@@ -47,7 +47,7 @@ case $comm in
         		
 			[[ "$DEBUG" == "no" ]] && mcounter
 			systemctl stop minecraftd
-       		 	[[ "$(ls $dDIR/$fbfile-${dDIR:21}-*.tar 2>dev/null | wc -l)" -eq 0 ]] && { tar -cf $dDIR/$fbfile-${dDIR:21}-$(date +%Y%m%d).tar -g $dDIR/data_daily.snar -C /home/minecraft server; }
+       		 	[[ "$(ls $dDIR/$fbfile-${dDIR:21}-*.tar 2>/dev/null | wc -l)" -eq 0 ]] && { tar -cf $dDIR/$fbfile-${dDIR:21}-$(date +%Y%m%d).tar -g $dDIR/data_daily.snar -C /home/minecraft server; }
 			tar -cf $dDIR/incremental-${dDIR:21}-$(date +%Y%m%d).tar -g $dDIR/data_daily.snar -C /home/minecraft server	
 			mysqldump -u root --all-databases > $dDIR/${dDIR:21}-mysqldump-$(date +%Y%m%d).dump
 			find $dDIR/* -mtime +7 -delete		#delete older than week
