@@ -102,12 +102,18 @@ case $chs in
 					warn; read -p "You are going to restore $file to $DSTDIR folder. Are you sure? (type yes|no): " sel
 						case $sel in 
                                 			"yes")
-                                                        info "Restoring Fullbackup file to $DSTDIR"
-                                                        tar -xf $fbfile.tar -C $DSTDIR -g /dev/null
-                                                        info "Now restoring from incremental-${file#$fbfile-} to $DSTDIR"
-                                                        tar -xf incremental-${file#$fbfile-} -C $DSTDIR -g /dev/null
-                                                        break ;;
-		                  			"no") echo "bye"; break ;;
+                                                        	info "Restoring Fullbackup file to $DSTDIR"
+                                                        	tar -xf $fbfile.tar -C $DSTDIR -g /dev/null
+								
+								info "Select which day of incremental backup do you want to restore"
+								select bkp in $(ls -A1 incremental-"$opt"-*.tar);
+								do
+									info "Now restoring from $bkp to $DSTDIR"
+                                                        		tar -xf $bkp -C $DSTDIR -g /dev/null
+								done
+                                                        	break ;;
+		                  			"no") 
+								echo "bye"; break ;;
                                 			*) error "Bad input"; break ;;
                         			esac    
                				done
@@ -118,12 +124,19 @@ case $chs in
                                 	warn; read -p "You are going to restore $file to $DSTDIR folder. Are you sure? (type yes|no): " sel
                                         	case $sel in
                                                 	"yes")
-                                                	info "Restoring Fullbackup file to $DSTDIR"
-                                                	tar -xf $fbfile.tar -C $DSTDIR -g /dev/null
-                                                	info "Now restoring from incremental-${file#$fbfile-} to $DSTDIR"
-							tar -xf incremental-${file#$fbfile-} -C $DSTDIR -g /dev/null
-                                                	break ;;
-                                                	"no") echo "bye"; break ;;
+                                                                info "Restoring Fullbackup file to $DSTDIR"
+                                                                tar -xf $fbfile.tar -C $DSTDIR -g /dev/null
+                                                                
+                                                                info "Select which day of incremental backup do you want to restore"
+                                                                select bkp in $(ls -A1 incremental-"$opt"-*.tar);
+                                                                do
+                                                                        info "Now restoring from $bkp to $DSTDIR"
+                                                                        tar -xf $bkp -C $DSTDIR -g /dev/null
+                                                                done
+                                                                break ;;
+
+							"no") 
+								echo "bye"; break ;;
                                                 	*) error "Bad input"; break ;;
                                       	  	esac
 					done
@@ -134,12 +147,18 @@ case $chs in
                                 	warn; read -p "You are going to restore $file to $DSTDIR folder. Are you sure? (type yes|no): " sel
                                         	case $sel in
                                                 	"yes")
-                                                        info "Restoring Fullbackup file to $DSTDIR"
-                                                        tar -xf $fbfile.tar -C $DSTDIR -g /dev/null
-                                                        info "Now restoring from incremental-${file#$fbfile-} to $DSTDIR"
-                                                        tar -xf incremental-${file#$fbfile-} -C $DSTDIR -g /dev/null
-                                                        break ;;
-                                                	"no") echo "bye"; break ;;
+                                                                info "Restoring Fullbackup file to $DSTDIR"
+                                                                tar -xf $fbfile.tar -C $DSTDIR -g /dev/null
+                                                                
+                                                                info "Select which day of incremental backup do you want to restore"
+                                                                select bkp in $(ls -A1 incremental-"$opt"-*.tar);
+                                                                do
+                                                                        info "Now restoring from $bkp to $DSTDIR"
+                                                                        tar -xf $bkp -C $DSTDIR -g /dev/null
+                                                                done
+                                                                break ;;
+                                               		"no") 
+								echo "bye"; break ;;
                                                 	*) error "Bad input"; break ;;
                                         	esac
                                 	done
