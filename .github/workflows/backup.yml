@@ -1,0 +1,35 @@
+name: Minecraft Backup
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+
+    - name: Install mcrcon
+      run: |
+        sudo apt-get update
+        sudo apt-get install mcrcon
+
+    - name: Execute Backup Script
+      run: |
+        sudo bash backup_script.sh ${{ matrix.option }}
+      env:
+        DEBUG: 'no'
+
+    strategy:
+      matrix:
+        option: ['-d', '-w', '-m']
